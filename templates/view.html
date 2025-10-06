@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} New | View {% endblock %}
+
+{% block extra_style %}
+<style>
+    .comment-section { margin-top: 40px; }
+    .comment-title {
+        font-size: 22px; font-weight: 700; margin-bottom: 25px;
+        border-left: 4px solid #007bff; padding-left: 10px; color: #333;
+    }
+    .comment-list { list-style: none; padding-left: 0; margin: 0; }
+    .comment-item { margin-bottom: 20px; }
+    .comment-info {
+        background: #fff; border: 1px solid #e5e7eb; border-radius: 10px;
+        padding: 15px 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .comment-info:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    .comment-author { font-weight: 600; color: #222; margin-bottom: 5px; }
+    .comment-text { margin: 10px 0; line-height: 1.5; color: #444; }
+    .comment-date { font-size: 12px; color: #888; }
+    .sub-comment-list {
+        list-style: none; padding-left: 40px; margin-top: 15px;
+        border-left: 2px solid #e0e0e0;
+    }
+    .reply-btn, .submit-reply, .submit-comment {
+        padding: 8px 16px; background: linear-gradient(135deg, #007bff, #0056b3);
+        border: none; border-radius: 6px; color: #fff; font-size: 14px;
+        font-weight: 500; cursor: pointer; transition: background 0.3s, transform 0.2s;
+    }
+    .reply-btn:hover, .submit-reply:hover, .submit-comment:hover {
+        background: linear-gradient(135deg, #0056b3, #004099);
+        transform: translateY(-1px);
+    }
+    .comment-form, .reply-form {
+        margin-top: 15px; padding: 15px; background: #f9fafb;
+        border: 1px solid #e5e7eb; border-radius: 10px;
+    }
+    .name-input, .comment-input {
+        width: 100%; padding: 10px 12px; margin-bottom: 10px;
+        border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;
+        background: #fff; transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .name-input:focus, .comment-input:focus {
+        outline: none; border-color: #007bff; box-shadow: 0 0 0 3px rgba(0,123,255,0.15);
+    }
+    .comment-input { min-height: 90px; resize: vertical; }
+    .comment-info-text { margin-top: 15px; font-style: italic; font-size: 13px; color: #666; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container wrapper">
+    <div class="longrek"></div>
+    <div class="clearfix"></div>
+
+    <ol class="breadcrumb">
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'category' slug=one_new.ctg.slug %}">{{ one_new.ctg.name }}</a></li>
+        <li class="active">{{ one_new.title }}</li>
+    </ol>
+
+    <div class="row">
+        <!-- LEFT CONTENT -->
+        <div class="col-md-8 col-xs-12">
+            <div class="view_img"><img src="{{ one_new.image1.url }}" alt=""></div>
+            <div class="news_box view">
+                <div class="view_title">{{ one_new.title }}</div>
+                <span class="date">{{ one_new.get_date }}</span>
+                <span class="news_type"><i class="fa fa-eye"></i> {{ one_new.views }}</span>
+                <span class="news_type"><i class="fa fa-book"></i> {{ one_new.ctg.name }}</span>
+                <div class="view_desc">
+                    <p><b>{{ one_new.short_desc }}</b></p>
+                    {% if one_new.image2 %}
+                        <div id="bigfav" class="carousel slide view_slide" data-ride="carousel">
+                            <div class="carousel-inner" role="listbox">
+                                <div class="item active">
+                                    <img src="{{ one_new.image2.url }}" alt="...">
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <p>{{ one_new.description }}</p>
+                </div>
+                <ul class="tag">
+                    {% for i in one_new.get_tags %}
+                    <li><a href="{% url 'search' %}?search={{ i }}">#{{ i }}</a></li>
+                    {% endfor %}
+                </ul>
+
+                {% if random_news %}
+                <div class="nav_news">
+                    <a href="{% url 'view' pk=random_news.0.id %}" class="prev_news text-right">
+                        <i class="fa fa-angle-left"></i> {{ random_news.0.title }}
+                    </a>
+                    <a href="{% url 'view' pk=random_news.1.id %}" class="next_news">
+                        {{ random_news.1.title }} <i class="fa fa-angle-right"></i>
+                    </a>
+                    <div class="clearfix"></div>
+                </div>
+                {% endif %}
+
+                <!-- COMMENTS SECTION -->
+                <div class="comment-section">
+                    <div class="comment-title">Izohlar <sup>{{ count }}</sup></div>
+
+                    <ul class="comment-list">
+                        {% for i in comments %}
+                        <li class="comment-item">
+                            <div class="comment-info">
+                                <div class="comment-author">{{ i.user }}</div>
+                                <p class="comment-text">{{ i.message }}</p>
+                                <div class="comment-date">{{ i.get_date }}</div>
+
+                                <!-- Reply button -->
+                                <button class="btn reply-btn">Javob</button>
+                                <form class="comment-form" method="post" action="{% url 'view' pk=one_new.id %}" style="display: none;">
+                                    {% csrf_token %}
+                                    <input type="text" name="user" class="name-input" placeholder="Ism" required>
+                                    <input type="hidden" name="parent_id" value="{{ i.id }}" class="form-input" hidden>
+                                    <textarea name="message" class="comment-input" placeholder="Javobingiz..." required></textarea>
+                                    <button type="submit" class="btn submit-reply">Javob Yuborish</button>
+                                </form>
+                            </div>
+
+                            {% if i.subs.all %}
+                            <ul class="sub-comment-list">
+                                {% for reply in i.subs.all %}
+                                <li class="comment-item">
+                                    <div class="comment-info">
+                                        <div class="comment-author">{{ reply.user }}</div>
+                                        <p class="comment-text">{{ reply.message }}</p>
+                                        <div class="comment-date">{{ reply.get_date }}</div>
+                                        <hr class="comment-hr">
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </li>
+                        {% empty %}
+                        <p>Hozircha izoh yo‘q. Birinchi bo‘lib fikr bildiring 🙂</p>
+                        {% endfor %}
+                    </ul>
+
+                    <!-- ADD COMMENT FORM -->
+                    <form class="comment-form" method="post" action="{% url 'view' pk=one_new.id %}">
+                        {% csrf_token %}
+                        <input type="text" name="user" class="name-input" placeholder="Ism" required>
+                        <textarea name="message" class="comment-input" placeholder="Xabar" required></textarea>
+                        <input type="hidden" name="parent_id" value="0">
+                        <button type="submit" class="btn submit-comment">Izoh Yozish</button>
+                    </form>
+
+                    <div class="comment-info-text">
+                        Ushbu yangilik haqida Fikringizni qoldiring.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT SIDEBAR -->
+        <div class="col-md-4 col-xs-12">
+            {% include 'partials/svejiy.html' %}
+            <div class="news_box rek"><div class="rek_right"></div></div>
+            <div class="subscribe">
+                <div class="title">Saytimizga <b>news.uz</b> obuna bo'ling</div>
+                <form action="{% url 'subs_add' path='view' %}" method="post">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input type="email" name="email" placeholder="Email" required>
+                        <button class="submit">Obuna bo'lish</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.querySelectorAll('.reply-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const replyForm = button.nextElementSibling;
+            replyForm.style.display = replyForm.style.display === 'none' ? 'block' : 'none';
+        });
+    });
+</script>
+{% endblock %}

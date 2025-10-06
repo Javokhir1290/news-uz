@@ -1,0 +1,146 @@
+{% load static %}
+
+<div class="topheader">
+	<div class="container">
+		<ul class="menu">
+			<li><a href="#about_us">Haqida</a></li>
+			<li><a href="{% url 'contact' %}">Bog'lanish</a></li>
+		</ul>
+
+		<ul class="kurs">
+			{% for i in valyuta %}
+				{% if i.Ccy == 'RUB' or i.Ccy == 'USD' or i.Ccy == 'EUR' %}
+					<li
+					{% if '-' not in i.Diff and i.Diff != '0' %}
+						style="color: green;"
+					{% elif '-' in i.Diff  %}
+						style="color: red;"
+					{% endif %}
+					>1 {{ i.Ccy }} = {{ i.Rate }}</li>
+				{% endif %}
+			{% endfor %}
+		</ul>
+
+			<ul class="lang">
+				{% if request.session.is_verified %}
+					{% if request.user.is_superuser or request.user.is_staff %}
+						<li>
+							<a href="{% url 'dashboard-home' %}">
+								<i class="fas fa-home"></i> Dashboard
+							</a>
+						</li>
+					{% endif %}
+					<li>
+						<!-- Modal chaqirish tugmasi -->
+						<a href="#" data-toggle="modal" data-target="#logoutModal">
+							<i class="fas fa-sign-out"></i> Logout
+						</a>
+					</li>
+				{% else %}
+					<li style="margin-left:15px;">
+						<a href="{% url 'auth' %}">
+							<i class="fa-solid fa-right-to-bracket"></i><span> Sign Up</span>
+						</a>
+					</li>
+				{% endif %}
+			</ul>
+
+		<ul class="lang">
+			<li class="active"><a href="#">Russian</a></li>
+			<li><a href="">O'zbek</a></li>
+			<li><a href="">English</a></li>
+		</ul>
+
+		<ul class="social">
+			<li><a href="#"><span class="fa fa-facebook-f"></span></a></li>
+			<li><a href="https://www.instagram.com/javakh.01/"><span class="fa fa-instagram"></span></a></li>
+			<li><a href="https://t.me/kuldashev.py/"><span class="fa fa-telegram"></span></a></li>
+			<li><a href="#"><span class="fa fa-google"></span></a></li>
+		</ul>
+	</div>
+</div>
+
+<nav class="navbar">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#"><img src="{% static 'img/logo.png' %}" alt=""></a>
+		</div>
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+				<i class="fa fa-close"></i>
+			</button>
+			<ul class="nav navbar-nav">
+				{% for i in ctgs %}
+					{% if i == one_ctg %}
+						<li class="active"><a href="{% url 'category' slug=i.slug %}" style="color: blue;">{{ i.name }}</a></li>
+					{% else %}
+						<li><a href="{% url 'category' slug=i.slug %}">{{ i.name }}</a></li>
+					{% endif %}
+				{% endfor %}
+			</ul>
+			<button type="button" class="btn navbar-right search_btn hidden-xs"><i class="fa fa-search"></i></button>
+			<form action="{% url 'search' %}" method="get" id="search" class="navbar-form navbar-right search_btn_box hidden-xs">
+				<button class="btn btn-default" type="button">
+				  <span><i class="fa fa-search"></i></span></button>
+					<div class="input-group">
+					  <input type="text" name="search" id="searchName" class="form-control" placeholder="Поиск..." required="">
+					  <input type="submit" hidden="">
+					</div>
+				<button type="button" class="btn  search_btn_close hidden-xs active"><i class="fa fa-close"></i></button>
+			</form>
+		</div>
+	</div>
+</nav>
+<a href="#" class="bigrek"></a>
+
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+	<div class="modal-content">
+	  <div class="modal-header">
+		<h5 class="modal-title" id="logoutModalLabel">Chiqishni tasdiqlaysizmi?</h5>
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+	  </div>
+
+	  <div class="modal-footer">
+		<button type="button" class="btn btn-cancel" data-dismiss="modal">Bekor qilish</button>
+		<form action="{% url 'logout' %}?next={% url 'auth' %}" method="post" style="display:inline;">
+			{% csrf_token %}
+			<button type="submit" class="btn btn-confirm">Ha, chiqaman</button>
+		</form>
+	  </div>
+	</div>
+  </div>
+</div>
+
+<style>
+.btn-cancel {
+	background-color: #6c757d;
+	color: white;
+	border-radius: 6px;
+	padding: 6px 14px;
+	border: none;
+	transition: 0.2s;
+}
+.btn-cancel:hover {
+	background-color: #5a6268;
+}
+
+.btn-confirm {
+	background-color: #dc3545;
+	color: white;
+	border-radius: 6px;
+	padding: 6px 14px;
+	border: none;
+	transition: 0.2s;
+}
+.btn-confirm:hover {
+	background-color: #c82333;
+}
+</style>

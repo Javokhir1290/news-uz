@@ -1,0 +1,75 @@
+/* 🟣 Butun sahifaga gradient fon */
+body {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    background-attachment: fixed;
+    background-size: cover;
+    color: #fff;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* 🔷 Barcha kartalar, modal oynalar, form wrapperlarga shisha effekt */
+.content-wrapper,
+.card,
+.modal-content,
+.box,
+.content,
+#content {
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 18px !important;
+    padding: 15px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    color: #fff;
+}
+
+/* 🔘 Inputlar va select'lar uchun chiroyli shaffof dizayn */
+input, select, textarea {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    color: #ffffff !important;
+    border: 1px solid #00ffc3 !important;
+    border-radius: 8px !important;
+    padding: 8px;
+}
+
+/* 📌 Sidebarni ham shaffof qilish */
+.sidebar {
+    background-color: rgba(0, 0, 0, 0.6) !important;
+    backdrop-filter: blur(10px);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 🧩 Navbar */
+.main-header.navbar {
+    background-color: rgba(0, 0, 0, 0.4) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 🟢 Tugmalar */
+.btn {
+    background-color: #00ffc3 !important;
+    color: #000 !important;
+    border: none;
+    font-weight: bold;
+}
+
+/* 🔵 Hover effektlar */
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 255, 195, 0.1) !important;
+}
+
+a {
+    color: #00ffc3 !important;
+}
+
+/* 🔲 Checkbox va radio uchun border */
+input[type=checkbox], input[type=radio] {
+    accent-color: #00ffc3;
+}
+
+/* 🧑‍💼 Form sarlavhalari */
+label, h1, h2, h3, th {
+    color: #ffffff !important;
+}

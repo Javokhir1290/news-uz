@@ -1,0 +1,122 @@
+{% load static %}
+
+<div class="iq-sidebar sidebar-default">
+    <div class="iq-sidebar-logo d-flex align-items-end justify-content-between">
+        <a href="{% url 'dashboard-home' %}" class="header-logo">
+            <img src="{% static 'dashboard/assets/images/logo.png' %}" class="img-fluid rounded-normal light-logo" alt="logo">
+            <img src="{% static 'dashboard/assets/images/logo-dark.png' %}" class="img-fluid rounded-normal d-none sidebar-light-img" alt="logo">
+            <span>News.uz</span>
+        </a>
+        <div class="side-menu-bt-sidebar-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="text-light wrapper-menu" width="30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </div>
+    </div>
+
+    <div class="data-scrollbar" data-scroll="1">
+        <nav class="iq-sidebar-menu">
+            <ul id="iq-sidebar-toggle" class="side-menu">
+
+                <!-- Homepage -->
+                <li class="sidebar-layout">
+                    <a href="{% url 'dashboard-home' %}" class="svg-icon">
+                        <i>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M3 12l2-2m0 0l7-7 7 7M5
+                                      10v10a1 1 0 001 1h3m10-11l2
+                                      2m-2-2v10a1 1 0 01-1 1h-3m-6
+                                      0a1 1 0 001-1v-4a1 1 0
+                                      011-1h2a1 1 0 011 1v4a1 1 0
+                                      001 1m-6 0h6" />
+                            </svg>
+                        </i>
+                        <span class="ml-2">Homepage</span>
+                    </a>
+                </li>
+
+                <!-- Models title -->
+                <li class="px-3 pt-3 pb-2">
+                    <span class="text-uppercase small font-weight-bold">Models</span>
+                </li>
+
+                <!-- Categories -->
+                <li class="sidebar-layout">
+                    <a href="{% url 'ctg-list' %}" class="svg-icon">
+                        <i>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M12 6V4m0 2a2 2 0 100
+                                      4m0-4a2 2 0 110 4m-6 8a2 2
+                                      0 100-4m0 4a2 2 0
+                                      110-4m0 4v2m0-6V4m6 6v10m6-2a2
+                                      2 0 100-4m0 4a2 2 0
+                                      110-4m0 4v2m0-6V4" />
+                            </svg>
+                        </i>
+                        <span class="ml-2">Categories</span>
+                    </a>
+                </li>
+
+                <!-- News -->
+                <li class="sidebar-layout">
+                    <a href="{% url 'news-list' %}" class="svg-icon">
+                        <i>
+                            <svg class="svg-icon" id="iq-form-1" width="18"
+                                 xmlns="http://www.w3.org/2000/svg" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M9 5H7a2 2 0 00-2
+                                      2v12a2 2 0 002
+                                      2h10a2 2 0
+                                      002-2V7a2 2 0
+                                      00-2-2h-2M9 5a2 2 0
+                                      002 2h2a2 2 0
+                                      002-2M9 5a2 2 0
+                                      012-2h2a2 2 0
+                                      012 2m-3 7h3m-3
+                                      4h3m-6-4h.01M9
+                                      16h.01"></path>
+                            </svg>
+                        </i>
+                        <span class="ml-2">News</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-layout">
+                    <a href="" class="svg-icon">
+                        <i class="fa-solid fa-phone"></i>
+                        <span class="ml-2">Connections</span>
+                    </a>
+                </li>
+
+                <!-- User Actions -->
+                <li class="px-3 pt-3 pb-2">
+                    <span class="text-uppercase small font-weight-bold">User Actions</span>
+                </li>
+
+                <!-- Profile -->
+
+                <li class="sidebar-layout">
+                    <a href="{% url 'user_list' %}" class="svg-icon">
+                        <i class="fas fa-user"></i>
+                        <span class="ml-2">User</span>
+                    </a>
+                </li>
+
+                <!-- Signout -->
+                <li class="sidebar-layout">
+                    <a class="svg-icon" data-toggle="modal" data-target="#LogoutModal">
+                        <i class="fas fa-sign-out"></i>
+                        <span class="ml-2">Signout</span>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+        <div class="pt-5 pb-5"></div>
+    </div>
+</div>

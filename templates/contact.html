@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} News | Contact {% endblock %}
+
+{% block content %}
+	<div class="container wrapper"	>
+		<div class="longrek"></div>
+		<div class="clearfix"></div>
+		
+		<ol class="breadcrumb">
+			<li><a href="{% url 'home' %}">Home</a></li>
+			<li class="active">Kontact</li>
+		</ol>
+		<div class="row">
+			<div class="col-md-5 col-xs-12">
+				<div class="cat_title">Bog'lanish</div>
+				<div class="con_info">Bu Javohir Kuldashev tomonidan Test uchun yaratilgan Sayt.  Kamchiliklari bo'lsa uzur so'raymiz va bu Saytni Yana mukammalroq qilishga harakat qilamiz ! </div>
+				<ul class="contact">
+					<li><i class="fa fa-map-marker"></i>Joylashuv : Toshkent shahri Mirobod tumani FentechHub academy </li>
+					<li><i class="fa fa-print"></i> (77) 777-43-15 ( <a href="https://t.me/c0de1r">@javohir_kuldashev</a> )</li>
+					<li><i class="fa fa-mobile"></i> 99877 777-95-60</li>
+					<li><i class="fa fa-envelope"></i> News1@gmail.com </li>
+				</ul>
+				<div class="feedback">
+					<div class="title">Tezkor Aloqa</div>
+					<h3 style="color: green;">{{ success }}</h3>
+					<form method="post">
+						{% csrf_token %}
+						<input type="text" name="ism" placeholder="Ism" required>
+						<input type="text" name="phone" placeholder="Telefon Raqam" required>
+						<textarea name="xabar" id="" cols="30" rows="10" placeholder="Xabar" required></textarea>
+						<button type="submit" class="btn submit">Yuborish</button>
+					</form>
+				</div>
+			</div>
+			<div class="col-md-7 col-xs-12">
+				<div class="con_img">
+					<img src="{% static 'img/contact.jpg' %}" alt="">
+				</div>
+				<div class="map"></div>
+			</div>
+		</div>
+		<div class="foot_rek">
+			<img src="{% static 'img/foootrek.jpg' %}" alt="">
+		</div>
+	</div>
+{% endblock %}

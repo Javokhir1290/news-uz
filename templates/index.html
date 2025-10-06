@@ -1,0 +1,571 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} News | Home {% endblock %}
+{% load news_filter %}
+
+
+
+{% block content %}
+<div class="container wrapper">
+		<div class="longrek"></div>
+		<div class="l_news">
+			<div class="title">Tasodifiy</div>
+			<div class="l_news_box">
+				<div id="littlenews" class="carousel slide" data-ride="carousel">
+					<div class="carousel-inner" role="listbox">
+						<div class="item active">
+							<a href="{% url 'view' pk=random_news.0.id %}">{{ random_news.0.title }}</a>
+						</div>
+						<div class="item">
+							<a href="{% url 'view' pk=random_news.1.id %}">{{ random_news.1.title }}</a>
+						</div>
+					</div>
+
+					<a class="left carousel-control" href="#littlenews" role="button" data-slide="prev">
+						<i class="fa fa-angle-left"></i>
+					</a>
+					<a class="right carousel-control" href="#littlenews" role="button" data-slide="next">
+						<i class="fa fa-angle-right"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="fav_news">
+			<div class="big_fav">
+				<div id="bigfav" class="carousel slide" data-ride="carousel">
+					<div class="carousel-inner" role="listbox">
+						<div class="item active">
+							<img src="{{ news.0.image1.url }}" alt="...">
+								<a href="{% url 'view' pk=news.0.id %}">
+									<div class="carousel-caption">
+										<div class="caption_pos">
+											<div class="type_news">{{ news.0.ctg.name  }}</div>
+											<div class="title">{{ news.0.title }}</div>
+											<span class="date">{{ news.0.get_date }}</span>
+											<span class="com_count"><span class="fa fa-eye"></span> {{ news.0.views }} </span>
+										</div>
+									</div>
+								</a>
+						</div>
+
+					</div>
+					<div class="control">
+
+					</div>
+				</div>
+			</div>
+			<div class="list_fav">
+				<div class="title"><b>Aktual</b> xabarlar</div>
+				<ul>
+					{% for i in actual %}
+					<li>
+						<a href="">
+							<div class="list_fimg">
+								<img src="{{ i.image1.url }}" alt="">
+							</div>
+							<span class="list_type">{{ i.ctg.name }}</span>
+							<span class="list_title">{{ i.title }}</span>
+							<span class="date">{{ i.get_date }}</span>
+						</a>
+					</li>
+					{% endfor %}
+				</ul>
+				<a href="" class="more">больше актуальные новости</a>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		<div class="head_title">Jahon Yangiliklari</div>
+		<div class="popular">
+
+			<div class="row">
+				{% for i in news|nfilter:'ctg__slug=jahon=4' %}
+				<div class="col-md-3 col-xs-12">
+					<div class="p_img"><img src="{{ i.image1.url }}" alt=""></div>
+					<a href="">{{ i.title }}</a>
+					<span class="date">{{ i.get_date }}</span>
+					<span class="p_type"><i class="fa fa-eye"></i> {{ i.views }}</span>
+				</div>
+				{% endfor %}
+			</div>
+
+		</div>
+		<a href="{% url 'view' pk=news.0.id %}" class="big_more">Ko'proq Yangiliklar</a>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 col-xs-12">
+				<div class="head_title">Fan Tenxnika Yangiliklari</div>
+				<div class="news_box">
+					<div class="row">
+						{% for i in news|nfilter:'ctg__slug=fan-texnika=2' %}
+						<div class="col-md-6 col-xs-12">
+							<div class="big_news">
+								<div class="big_n_img"><img src="{{ i.image1.url }}" alt=""></div>
+								<a href="">{{ i.title }}</a>
+								<span class="date">{{ i.get_date }}</span>
+								<span class="news_type"><i class="fa fa-eye"></i> {{ i.views }}</span>
+								<div class="desc">{{ i.short_desc }}</div>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+				<a href="{% url 'view' pk=news.1.id %}" class="big_more">Ko'proq Yangiliklar</a>
+				<div class="head_title">Sport Yangiliklari</div>
+				<div class="news_box">
+					<div class="row">
+						{% for i in news|nfilter:'ctg__slug=sport=2' %}
+						<div class="col-md-6 col-xs-12">
+							<div class="big_news">
+								<div class="big_n_img"><img src="{{ i.image1.url }}" alt=""></div>
+								<a href="">{{ i.title }}</a>
+								<span class="date">{{ i.get_date }}</span>
+								<span class="news_type"><i class="fa fa-eye"></i> {{ i.views }}</span>
+								<div class="desc">{{ i.short_desc }}</div>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+
+				<div class="news_box">
+					<div class="row">
+						<div class="head_title">Jamiyat va O'zbekiston Yangiliklari</div>
+						<div class="col-md-6 col-xs-12">
+							<ul class="list_news">
+								{% for i in news|nfilter:'ctg__slug=ozbekiston=4' %}
+								<li>
+									<div class="list_img"><img src="{{ i.image1.url }}" alt=""></div>
+									<a href="">{{ i.title }}</a>
+									<span class="date">{{ i.get_date }}</span>
+									<span class="news_type"><i class="fa fa-eye"></i> {{ i.views }}</span>
+								</li>
+								{% endfor %}
+							</ul>
+						</div>
+						<div class="col-md-6 col-xs-12">
+							<ul class="list_news">
+								{% for i in news|nfilter:'ctg__slug=jamiyat=4' %}
+								<li>
+									<div class="list_img"><img src="{{ i.image1.url }}" alt=""></div>
+									<a href="">{{ i.title }}</a>
+									<span class="date">{{ i.get_date }}</span>
+									<span class="news_type"><i class="fa fa-eye"></i> {{ i.views }}</span>
+								</li>
+								{% endfor %}
+							</ul>
+						</div>
+					</div>
+				</div>
+				<a href="{% url 'view' pk=news.2.id %}" class="big_more">Ko'proq Yangiliklar </a>
+			</div>
+			<div class="col-md-4 col-xs-12">
+
+				{% include 'partials/svejiy.html' %}
+
+				<div class="head_title colum">Iqtisod</div>
+
+					<div class="news_box colums">
+
+								<ul class="list_news">
+									{% for i in news|nfilter:'ctg__slug=iqtisod=4' %}
+									<li>
+										<div class="list_img"><img src="{{ i.image1.url }}" alt=""></div>
+										<a href="">{{ i.title }}</a>
+										<div class="col_type">{{ i.get_date }}</div>
+									</li>
+									{% endfor %}
+								</ul>
+
+					</div>
+
+
+				<div class="news_box rek">
+					<div class="rek_right">
+
+					</div>
+				</div>
+				<div class="subscribe">
+					<div class="title">Saytimizga <b>news.uz</b> Obuna bo'ling</div>
+					<form action="{% url 'subs_add' path='home' %}" method="post">
+						{% csrf_token %}
+						<div class="input-group">
+							<input type="email" name="email" placeholder="Email" required>
+							<button class="submit">Obuna bo'lish</button>
+						</div>
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div class="culture">
+		<div class="container">
+			<div class="title">КУЛЬТУРА</div>
+			<div id="culture" class="carousel slide" data-ride="carousel">
+				<ol class="carousel-indicators">
+					<li data-target="#culture" data-slide-to="0" class="active"></li>
+					<li data-target="#culture" data-slide-to="1"></li>
+				</ol>
+				<div class="carousel-inner" role="listbox">
+					<div class="item active">
+						<div class="big_cult">
+							<img src="{% static 'img/cult1.jpg' %}" alt="">
+							<a href="#">
+								<div class="caption">«Ожидание» — весенняя коллекция для девушек в «особом» положении</div>
+							</a>
+						</div>
+						<div class="little_cult">
+							<img src="{% static 'img/cult1.jpg' %}" alt="">
+							<a href="#">
+								<div class="caption">«Ожидание» — весенняя коллекция для девушек в «особом» положении</div>
+							</a>
+						</div>
+						<div class="little_cult">
+							<img src="{% static 'img/cult1.jpg' %}" alt="">
+							<a href="#">
+								<div class="caption">«Ожидание» — весенняя коллекция для девушек в «особом» положении</div>
+							</a>
+						</div>
+						<div class="little_cult">
+							<img src="{% static 'img/cult1.jpg' %}" alt="">
+							<a href="#">
+								<div class="caption">«Ожидание» — весенняя коллекция для девушек в «особом» положении</div>
+							</a>
+						</div>
+						<div class="little_cult">
+							<img src="{% static 'img/cult1.jpg' %}" alt="">
+							<a href="#">
+								<div class="caption">«Ожидание» — весенняя коллекция для девушек в «особом» положении</div>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<a href="{% url 'view' pk=news.3.id %}" class="more">Ko'proq Yangiliklar</a>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 col-xs-12">
+				<div class="head_title">Ekologiya</div>
+				<div class="news_box">
+					<div class="row">
+						{% for i in news|nfilter:'ctg__slug=ekologiya=2' %}
+						<div class="col-md-6 col-xs-12">
+							<div class="big_news">
+								<div class="big_n_img"><img src="{{ i.image1.url }}" alt=""></div>
+								<a href="">{{ i.title }}</a>
+								<span class="date">{{ i.get_date }}</span>
+								<span class="news_type"><i class="fa fa-eye"></i> {{ i.views }}</span>
+								<div class="desc">{{ i.short_desc }}</div>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+				<div class="news_box">
+					<div class="row">
+						<div class="col-md-6 col-xs-12">
+							<ul class="list_news">
+								{% for i in news|nfilter:'ctg__slug=jamiyat=4' %}
+								<li>
+									<div class="list_img"><img src="{{ i.image1.url }}" alt=""></div>
+									<a href="">{{ i.title }}</a>
+									<span class="date">{{ i.get_date }}</span>
+									<span class="news_type"><i class="fa fa-eye"></i> {{ i.views }}</span>
+								</li>
+								{% endfor %}
+							</ul>
+						</div>
+						<div class="col-md-6 col-xs-12">
+							<ul class="list_news">
+								{% for i in news|nfilter:'ctg__slug=iqtisod=4' %}
+								<li>
+									<div class="list_img"><img src="{{ i.image1.url }}" alt=""></div>
+									<a href="">{{ i.title }}</a>
+									<span class="date">{{ i.get_date }}</span>
+									<span class="news_type"><i class="fa fa-eye"></i> {{ i.views }}</span>
+								</li>
+								{% endfor %}
+							</ul>
+						</div>
+					</div>
+				</div>
+				<a href="{% url 'view' pk=news.4.id %}" class="big_more">Ko'proq Yangiliklar</a>
+				<div class="head_title">Dunyoda</div>
+				<div class="news_box">
+					<div class="row">
+						<div class="col-md-6 col-xs-12">
+							<div class="big_news">
+								{% for i in news|nfilter:'ctg__slug=jahon=1' %}
+								<div class="big_n_img"><img src="{{ i.image1.url }}" alt=""></div>
+								<a href="">{{ i.title }}</a>
+								<span class="date">{{ i.get_date }}</span>
+								<span class="news_type"><i class="fa fa-eye"></i> {{ i.views }}</span>
+								<div class="desc">{{ i.short_desc }}</div>
+								{% endfor %}
+							</div>
+						</div>
+						<div class="col-md-6 col-xs-12">
+							<div class="big_news">
+								{% for i in news|nfilter:'ctg__slug=jamiyat=1' %}
+								<div class="big_n_img"><img src="{{ i.image1.url }}" alt=""></div>
+								<a href="">{{ i.title }}</a>
+								<span class="date">{{ i.get_date }}</span>
+								<span class="news_type"><i class="fa fa-eye"></i> {{ i.views }}</span>
+								<div class="desc">{{ i.short_desc }}</div>
+								{% endfor %}
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<div class="news_box">
+					<div class="row">
+						<div class="col-md-6 col-xs-12">
+							<ul class="list_news">
+								<li>
+									<div class="list_img"><img src="{% static 'img/news1.jpg' %}" alt=""></div>
+									<a href="#">Dolor sit amet, consectetuer adipiscing elit.</a>
+									<span class="date">12.01.2017</span>
+									<span class="news_type"><i class="fa fa-pencil"></i> Общество</span>
+								</li>
+								<li>
+									<div class="list_img"><img src="{% static 'img/news1.jpg' %}" alt=""></div>
+									<a href="#">Dolor sit amet, consectetuer adipiscing elit.</a>
+									<span class="date">12.01.2017</span>
+									<span class="news_type"><i class="fa fa-pencil"></i> Общество</span>
+								</li>
+								<li>
+									<div class="list_img"><img src="{% static 'img/news1.jpg' %}" alt=""></div>
+									<a href="#">Dolor sit amet, consectetuer adipiscing elit.</a>
+									<span class="date">12.01.2017</span>
+									<span class="news_type"><i class="fa fa-pencil"></i> Общество</span>
+								</li>
+								<li>
+									<div class="list_img"><img src="{% static 'img/news1.jpg' %}" alt=""></div>
+									<a href="#">Dolor sit amet, consectetuer adipiscing elit.</a>
+									<span class="date">12.01.2017</span>
+									<span class="news_type"><i class="fa fa-pencil"></i> Общество</span>
+								</li>
+							</ul>
+						</div>
+						<div class="col-md-6 col-xs-12">
+							<ul class="list_news">
+								<li>
+									<div class="list_img"><img src="{% static 'img/news1.jpg' %}" alt=""></div>
+									<a href="#">Dolor sit amet, consectetuer adipiscing elit.</a>
+									<span class="date">12.01.2017</span>
+									<span class="news_type"><i class="fa fa-pencil"></i> Общество</span>
+								</li>
+								<li>
+									<div class="list_img"><img src="{% static 'img/news1.jpg' %}" alt=""></div>
+									<a href="#">Dolor sit amet, consectetuer adipiscing elit.</a>
+									<span class="date">12.01.2017</span>
+									<span class="news_type"><i class="fa fa-pencil"></i> Общество</span>
+								</li>
+								<li>
+									<div class="list_img"><img src="{% static 'img/news1.jpg' %}" alt=""></div>
+									<a href="#">Dolor sit amet, consectetuer adipiscing elit.</a>
+									<span class="date">12.01.2017</span>
+									<span class="news_type"><i class="fa fa-pencil"></i> Общество</span>
+								</li>
+								<li>
+									<div class="list_img"><img src="{% static 'img/news1.jpg' %}" alt=""></div>
+									<a href="#">Dolor sit amet, consectetuer adipiscing elit.</a>
+									<span class="date">12.01.2017</span>
+									<span class="news_type"><i class="fa fa-pencil"></i> Общество</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<a href="#" class="big_more">больше новости</a>
+			</div>
+			<div class="col-md-4 col-xs-12">
+				<div class="head_title">ТЕХНОЛОГИИ</div>
+				<div id="technews" class="carousel slide listnews technonews" data-ride="carousel">
+						<div class="carousel-inner" role="listbox">
+							<div class="item active">
+								<div class="full_img">
+									<img src="{% static 'img/news3.jpg' %}" alt="">
+								</div>
+								<div class="news_box">
+										<a href="#">Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</a>
+										<p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut.</p>
+								</div>
+						</div>
+						<div class="item">
+							<div class="full_img">
+								<img src="{% static 'img/news3.jpg' %}" alt="">
+							</div>
+							<div class="news_box">
+									<a href="#">D2onec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</a>
+									<p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut.</p>
+							</div>
+						</div>
+					</div>
+					<div class="indi_box">
+						<ol class="carousel-indicators">
+							<li data-target="#technews" data-slide-to="0" class="active"></li>
+							<li data-target="#technews" data-slide-to="1"></li>
+						</ol>
+					</div>
+				</div>
+				<div class="head_title">ЭКОНОМИКА</div>
+				<div id="econews" class="carousel slide listnews" data-ride="carousel">
+					<div class="news_box">
+						<div class="carousel-inner" role="listbox">
+							<div class="item active">
+								<ul class="list_news">
+									<li>
+										<div class="list_img"><img src="{% static 'img/news1.jpg' %}" alt=""></div>
+										<a href="#">Dolor sit amet, consectetuer adipiscing elit.</a>
+										<span class="date">12.01.2017</span>
+										<span class="news_type"><i class="fa fa-pencil"></i> Общество</span>
+									</li>
+									<li>
+										<div class="list_img"><img src="{% static 'img/news1.jpg' %}" alt=""></div>
+										<a href="#">Dolor sit amet, consectetuer adipiscing elit.</a>
+										<span class="date">12.01.2017</span>
+										<span class="news_type"><i class="fa fa-pencil"></i> Общество</span>
+									</li>
+									<li>
+										<div class="list_img"><img src="{% static 'img/news1.jpg' %}" alt=""></div>
+										<a href="#">Dolor sit amet, consectetuer adipiscing elit.</a>
+										<span class="date">12.01.2017</span>
+										<span class="news_type"><i class="fa fa-pencil"></i> Общество</span>
+									</li>
+
+								</ul>
+							</div>
+							<div class="item">
+								<ul class="list_news">
+									<li>
+										<div class="list_img"><img src="{% static 'img/news1.jpg' %}" alt=""></div>
+										<a href="#">Dolor sit amet, consectetuer adipiscing elit.</a>
+										<span class="date">12.01.2017</span>
+										<span class="news_type"><i class="fa fa-pencil"></i> Общество</span>
+									</li>
+									<li>
+										<div class="list_img"><img src="{% static 'img/news1.jpg' %}" alt=""></div>
+										<a href="#">Dolor sit amet, consectetuer adipiscing elit.</a>
+										<span class="date">12.01.2017</span>
+										<span class="news_type"><i class="fa fa-pencil"></i> Общество</span>
+									</li>
+									<li>
+										<div class="list_img"><img src="{% static 'img/news1.jpg' %}" alt=""></div>
+										<a href="#">Dolor sit amet, consectetuer adipiscing elit.</a>
+										<span class="date">12.01.2017</span>
+										<span class="news_type"><i class="fa fa-pencil"></i> Общество</span>
+									</li>
+
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="indi_box">
+						<ol class="carousel-indicators">
+							<li data-target="#econews" data-slide-to="0" class="active"></li>
+							<li data-target="#econews" data-slide-to="1"></li>
+						</ol>
+					</div>
+				</div>
+				<div class="head_title photo_news">НОВОСТИ В ФОТО</div>
+				<div id="technews" class="carousel slide listnews" data-ride="carousel">
+						<div class="carousel-inner" role="listbox">
+							<div class="item active">
+								<div class="full_img">
+									<img src="{% static 'img/news3.jpg' %}" alt="">
+								</div>
+								<div class="news_box">
+										<a href="#">Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</a>
+								</div>
+						</div>
+						<div class="item">
+							<div class="full_img">
+								<img src="{% static 'img/news3.jpg' %}" alt="">
+							</div>
+							<div class="news_box">
+									<a href="#">D2onec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</a>
+							</div>
+						</div>
+					</div>
+					<div class="indi_box">
+						<ol class="carousel-indicators">
+							<li data-target="#technews" data-slide-to="0" class="active"></li>
+							<li data-target="#technews" data-slide-to="1"></li>
+						</ol>
+					</div>
+				</div>
+				<div class="head_title sport">SPORT</div>
+				<div id="econews" class="carousel slide listnews" data-ride="carousel">
+					<div class="news_box">
+						<div class="carousel-inner" role="listbox">
+							<div class="item active">
+								<ul class="list_news">
+									{% for i in news|nfilter:'ctg__slug=sport=2' %}
+									<li>
+										<div class="list_img"><img src="{{ i.image1.url }}" alt=""></div>
+										<a href="">{{ i.title }}</a>
+										<span class="date">{{ i.get_date }}</span>
+										<span class="news_type"><i class="fa fa-eye"></i> {{ i.views }}</span>
+									</li>
+									{% endfor %}
+								</ul>
+							</div>
+							<div class="item">
+								<ul class="list_news">
+									<li>
+										<div class="list_img"><img src="{% static 'img/news1.jpg' %}" alt=""></div>
+										<a href="#">Dolor sit amet, consectetuer adipiscing elit.</a>
+										<span class="date">12.01.2017</span>
+										<span class="news_type"><i class="fa fa-pencil"></i> Общество</span>
+									</li>
+									<li>
+										<div class="list_img"><img src="{% static 'img/news1.jpg' %}" alt=""></div>
+										<a href="#">Dolor sit amet, consectetuer adipiscing elit.</a>
+										<span class="date">12.01.2017</span>
+										<span class="news_type"><i class="fa fa-pencil"></i> Общество</span>
+									</li>
+									<li>
+										<div class="list_img"><img src="{% static 'img/news1.jpg' %}" alt=""></div>
+										<a href="#">Dolor sit amet, consectetuer adipiscing elit.</a>
+										<span class="date">12.01.2017</span>
+										<span class="news_type"><i class="fa fa-pencil"></i> Общество</span>
+									</li>
+									<li>
+										<div class="list_img"><img src="{% static 'img/news1.jpg' %}" alt=""></div>
+										<a href="#">Dolor sit amet, consectetuer adipiscing elit.</a>
+										<span class="date">12.01.2017</span>
+										<span class="news_type"><i class="fa fa-pencil"></i> Общество</span>
+									</li>
+									<li>
+										<div class="list_img"><img src="{% static 'img/news1.jpg' %}" alt=""></div>
+										<a href="#">Dolor sit amet, consectetuer adipiscing elit.</a>
+										<span class="date">12.01.2017</span>
+										<span class="news_type"><i class="fa fa-pencil"></i> Общество</span>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="indi_box">
+						<ol class="carousel-indicators">
+							<li data-target="#econews" data-slide-to="0" class="active"></li>
+							<li data-target="#econews" data-slide-to="1"></li>
+						</ol>
+					</div>
+				</div>
+				<div class="head_title weather">Погода</div>
+				<div class="news_box"></div>
+			</div>
+		</div>
+		<div class="foot_rek">
+			<img src="{% static 'img/foootrek.jpg' %}" alt="">
+		</div>
+	</div>
+{% endblock %}

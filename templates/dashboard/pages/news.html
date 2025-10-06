@@ -1,0 +1,442 @@
+{% extends 'dashboard/base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+
+
+{% if position == 'form' %}
+
+
+    <div class="card">
+                  <div class="card-header d-flex justify-content-between">
+                         <div class="header-title">
+                            <h4 class="card-title">News list</h4>
+                         </div>
+                  </div>
+                  <div class="card-body">
+                         <div  class="table-editable">
+                                <form enctype="multipart/form-data" method="post">
+                                    {% csrf_token %}
+                                       <div class="form-row">
+
+                                          <div class="col-md-6 mb-3">
+                                             <label>News Category</label>
+                                              {{ form.ctg|add_class:'form-control' }}
+                                          </div>
+
+                                          <div class="col-md-6 mb-3">
+                                             <label>Tags for News (Write with a Space)</label>
+                                              {{ form.tags|add_class:'form-control' }}
+                                          </div>
+
+                                           <div class="col-md-12 mb-3">
+                                             <label>News Title</label>
+                                              {{ form.title|add_class:'form-control' }}
+                                           </div>
+
+                                           <div class="col-md-6 mb-3">
+                                             <label>Short Description</label>
+                                              {{ form.short_desc|add_class:"form-control"|attr:"style:resize:both;" }}
+                                           </div>
+
+                                           <div class="col-md-6 mb-3">
+                                             <label>Description</label>
+                                              {{ form.description|add_class:"form-control"|attr:"style:resize:both;" }}
+                                           </div>
+
+                                           <div class="col-md-6 mb-3">
+                                               <p>First Picture :</p>
+                                               <div class="custom-file mb-3">
+                                                  <input type="file" class="custom-file-input" id="customFile1" name="image1" required>
+                                                  <label class="custom-file-label" for="customFile1">Choose file</label>
+                                               </div>
+                                           </div>
+
+                                           <div class="col-md-6 mb-3">
+                                               <p>Second Picture :</p>
+                                               <div class="custom-file mb-3">
+                                                  <input type="file" class="custom-file-input" id="customFile2" name="image2">
+                                                  <label class="custom-file-label" for="customFile2">Choose file</label>
+                                               </div>
+                                           </div>
+
+                                       </div>
+                                       <div class="form-group" style="text-align: right;">
+                                            <button class="btn btn-success" type="submit"> Save All</button>
+                                       </div>
+
+
+                                </form>
+
+
+                         </div>
+                         <hr>
+                  </div>
+    </div>
+
+
+
+{% elif position == 'list' %}
+
+          <div class="card">
+                  <div class="card-header d-flex justify-content-between">
+                     <div class="header-title">
+                        <h4 class="card-title">News list</h4>
+                     </div>
+                  </div>
+                  <div class="card-body">
+                     {% if success %}
+                     <div class="alert alert-success" role="alert">
+                        <div class="iq-alert-text">{{ success }}</div>
+                     </div>
+                     {% endif %}
+
+                      {% if error %}
+                      <div class="alert alert-danger" role="alert">
+                        <div class="iq-alert-text">{{ error }}</div>
+                     </div>
+                     {% endif %}
+                     <div  class="table-editable">
+                        <span class="table-add float-right mb-3 mr-2">
+                        <a href="{% url 'news-add' %}" class="btn btn-sm bg-success">
+                          <span class="pl-1">Add New</span>
+                        </a>
+                        </span>
+                        <table class="table table-bordered table-responsive-md table-striped text-center">
+                           <thead>
+                              <tr>
+                                 <th>Id</th>
+                                 <th>Title</th>
+                                 <th>Category</th>
+                                 <th>Date</th>
+                                 <th>Picture</th>
+                                 <th>Actions</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                           {% for i in news %}
+                              <tr>
+                                 <td>{{ i.id }}</td>
+                                <td style="max-width: 250px"><b>{{ i.title }}</b></td>
+                                 <td>{{ i.ctg.name }}</td>
+                                 <td>{{ i.create }}</td>
+                                 <td>
+                                     <img src="{{ i.image1.url }}" alt=""
+                                     style="max-width: 150px; max-height: 150px;">
+                                 </td>
+
+                                 <td>
+
+                                     <a href="{% url 'news-detail' pk=i.id %}" class="btn btn-outline-primary mt-2">
+                                        <i class="fas fa-info">
+                                        </i>
+                                      </a>
+
+                                     <a href="{% url 'news-edit' pk=i.id %}" class="btn btn-outline-secondary mt-2">
+                                        <i class="fas fa-pencil">
+                                        </i>
+                                      </a>
+
+                                     <button class="btn btn-outline-warning mt-2">
+                                        <i class="fas fa-trash" data-toggle="modal" data-target="#deleteModal-{{ i.id }}">
+                                        </i>
+                                      </button>
+
+
+                                 </td>
+                              </tr>
+                           {% endfor %}
+                           </tbody>
+                        </table>
+                     </div>
+                      <hr>
+                      <nav aria-label="...">
+                            <ul class="pagination justify-content-end">
+                                {% if news.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ news.previous_page_number }}" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+
+                                {% for num in ctgs.paginator.page_range %}
+                                    {% if ctgs.number == num %}
+                                        <li class="page-item active">
+                                            <a class="page-link" href="#">{{ num }}</a>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% if news.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ news.next_page_number }}" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                      </nav>
+                  </div>
+          </div>
+
+
+<!-----------          delete modal           ------------->
+
+{% for i in news %}
+
+        <!-- Modal -->
+        <div class="modal fade" id="deleteModal-{{ i.id }}" tabindex="-1" role="dialog" aria-labelledby="LogoutModalTitle" aria-hidden="true">
+           <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                 <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalTitle">Delete News</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                 </div>
+                 <div class="modal-body">
+                     Rostdan ham <mark>{{ i.title }}</mark>ni O'chirmoqchimisiz?
+                 </div>
+                 <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <a href="{% url 'news-delete' pk=i.id %}" type="button" class="btn btn-primary">Yes</a>
+                 </div>
+              </div>
+           </div>
+        </div>
+
+{% endfor %}
+
+
+{% elif position == 'detail' %}
+
+        <div class="card">
+                  <div class="card-header d-flex justify-content-between">
+                     <div class="header-title">
+                         <h4 class="card-title"><mark class="bg-light">Title:  {{ new.title }}</mark></h4>
+                     </div>
+                  </div>
+                  <div class="card-body">
+
+
+                      <div class="col-lg-12 col-md-12">
+         <div class="row">
+            <div class="col-md-4">
+               <div class="card">
+                  <div class="card-body">
+                     <div class="d-flex align-items-center">
+                        <div class="">
+                            <p class="mb-2 text-secondary">Category</p>
+                            <div class="d-flex flex-wrap justify-content-start align-items-center">
+                               <h5 class="mb-0 font-weight-bold">{{ new.ctg.name }}</h5>
+                            </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="">
+                            <p class="mb-2 text-secondary">Views</p>
+                            <div class="d-flex flex-wrap justify-content-center align-items-center">
+                               <h5 class="mb-0 font-weight-bold">{{ new.views }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="">
+                           <p class="mb-2 text-secondary">Comments</p>
+                           <div class="d-flex flex-wrap justify-content-center align-items-center">
+                              <h5 class="mb-0 font-weight-bold">{{ new.comments.count }}</h5>
+                           </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            </div>
+         </div>
+      </div>
+
+
+                     <div  class="table-editable">
+                        <span class="table-add float-right mb-3 mr-2">
+                        <a href="" class="btn btn-sm bg-success" data-toggle="modal" data-target="#CtgAdd">
+                          <span class="pl-1">Add New</span>
+                        </a>
+                        </span>
+                        <table class="table table-bordered table-responsive-md table-striped text-center">
+                           <thead>
+                              <tr>
+                                 <th>Key</th>
+                                 <th>Value</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                                <tr>
+                                    <td style="max-width: 100px;">Id</td>
+                                    <td>{{ new.id }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="max-width: 100px;">Tags</td>
+                                    <td>{{ new.tags }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="max-width: 100px;">Short Description</td>
+                                    <td><button class="btn btn-outline-warning mt-2 btn-sm" data-toggle="modal" data-target="#shortDesc">
+                                        <i class="fas fa-scroll"></i>
+                                        Short Reading
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td style="max-width: 100px;">Full Description</td>
+                                    <td><button class="btn btn-outline-warning mt-2 btn-sm" data-toggle="modal" data-target="#description">
+                                        <i class="fas fa-scroll"></i>
+                                        Full Reading
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td>First Picture</td>
+                                    <td><button class="btn btn-outline-warning mt-2 btn-sm" data-toggle="modal" data-target="#imageModal">
+                                        <i class="fas fa-scroll"></i>
+                                        View Picture
+                                    </button></td>
+                                </tr>
+                                {% if new.image2 %}
+                                    <td>Second Picture</td>
+                                    <td><button class="btn btn-outline-warning mt-2 btn-sm" data-toggle="modal" data-target="#image2Modal">
+                                        <i class="fas fa-scroll"></i>
+                                        View Picture
+                                    </button></td>
+                                {% endif %}
+                           </tbody>
+                        </table>
+                     </div>
+                      <hr>
+                      <nav aria-label="...">
+
+                      </nav>
+                  </div>
+          </div>
+
+
+<!--  image modal    -->
+
+
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+           <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                 <div class="modal-header">
+                    <h5 class="modal-title" id="imageModalTitle">Image 1</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                 </div>
+                 <div class="modal-body"><img src="{{ new.image1.url }}" style="max-width: 470px; max-height: 470px;">
+
+                 </div>
+                 <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+                 </div>
+              </div>
+           </div>
+        </div>
+
+
+
+
+<!--   image2 modal    -->
+
+
+        <div class="modal fade" id="image2Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="imageModal2Title">Image 2</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+
+         <div class="modal-body text-center">
+            {% if new.image2 %}
+               <img src="{{ new.image2.url }}" class="img-fluid rounded" style="max-width: 470px; max-height: 470px;">
+            {% else %}
+               <p class="text-muted">No image available.</p>
+            {% endif %}
+         </div>
+
+         <div class="modal-footer">
+            <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>
+
+
+
+
+
+
+
+        <!-- Short desc -->
+        <div class="modal fade" id="shortDesc" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+           <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                 <div class="modal-header">
+                    <h5 class="modal-title" id="shortDescTitle">Short Description</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                 </div>
+                 <div class="modal-body">
+                        {{ new.short_desc }}
+                 </div>
+                 <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+                 </div>
+              </div>
+           </div>
+        </div>
+
+
+
+        <!-- Tolliq desc -->
+        <div class="modal fade" id="description" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+           <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+              <div class="modal-content">
+                 <div class="modal-header">
+                    <h5 class="modal-title" id="descriptionTitle">Full Description</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                 </div>
+                 <div class="modal-body">
+                    {% for d in new.get_desc %}
+                     <p>{{ d }}</p>
+                    {% endfor %}
+                 </div>
+                 <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+                 </div>
+              </div>
+           </div>
+        </div>
+
+{% endif %}
+
+{% endblock %}

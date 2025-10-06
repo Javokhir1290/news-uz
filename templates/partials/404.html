@@ -1,0 +1,222 @@
+<div class="container wrapper">
+    <div style="height:3px; background:black; box-shadow:0 2px 8px rgba(0,0,0,0.5);"></div>
+
+
+
+    <div class="row">
+
+        <style>
+            :root{
+                --primary: #6a5cff;
+                --primary-dark: #4b3fe0;
+                --text-color: #222;
+                --muted: #666;
+                --bg-light: #f9f9fb;
+            }
+            *{box-sizing:border-box;margin:0;padding:0}
+            body{font-family: 'Segoe UI', Roboto, Arial, sans-serif;}
+            .card{
+                width:100%;
+                max-width:1000px;
+                background: white;
+                border-radius:16px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+                display:grid;
+                grid-template-columns: 1fr 380px;
+                gap:28px;
+                padding:36px;
+                align-items:center;
+                margin: 40px auto;
+                border: 1px solid #eee;
+                position: relative;
+                overflow: hidden;
+            }
+            /* 404 orqa fon animatsiya */
+            .card::before {
+                content: "";
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: linear-gradient(120deg, #ff4d4d, #ffb84d, #4dff88, #4da6ff, #b84dff, #ff4da6);
+                background-size: 400% 400%;
+                animation: gradientMove 12s ease infinite;
+                z-index: 0;
+                opacity: 0.15;
+            }
+            @keyframes gradientMove {
+                0% { background-position: 0% 50%; }
+                50% { background-position: 100% 50%; }
+                100% { background-position: 0% 50%; }
+            }
+            .info{padding:18px 8px; position: relative; z-index: 1;}
+            .big-404{
+                font-size:120px;
+                font-weight:900;
+                line-height:1;
+                margin-bottom:10px;
+                background: linear-gradient(90deg, var(--primary), #00c6ff);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                position: relative;
+                z-index: 1;
+            }
+            h1{
+                font-size:36px;
+                color: var(--text-color);
+                margin-bottom:8px;
+            }
+            p.lead{
+                color:var(--muted);
+                margin-bottom:22px;
+                font-size:17px;
+                max-width:60ch;
+            }
+            .actions{
+                display:flex;
+                gap:12px;
+                flex-wrap:wrap;
+            }
+            .btn{
+                display:inline-flex;
+                align-items:center;
+                gap:10px;
+                padding:12px 20px;
+                border-radius:10px;
+                font-weight:600;
+                cursor:pointer;
+                text-decoration:none;
+                transition: transform .18s ease, box-shadow .18s ease;
+                font-size:15px;
+            }
+            .btn-primary{
+                background: linear-gradient(90deg,var(--primary), #00c6ff);
+                color:white;
+                box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+            }
+            .btn-primary:hover{
+                transform: translateY(-3px);
+                box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            }
+            .btn-ghost{
+                background: var(--bg-light);
+                color: var(--primary-dark);
+            }
+            .btn-ghost:hover{
+                background: #e9e9f4;
+                transform: translateY(-3px);
+            }
+            .visual{
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                padding:10px;
+                position: relative;
+                z-index: 1;
+            }
+            .scene{
+                width:100%;
+                max-width:340px;
+                aspect-ratio:1/1;
+                border-radius:18px;
+                background: var(--bg-light);
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                padding:24px;
+                position:relative;
+                overflow:hidden;
+            }
+            .orb{
+                position:absolute;
+                width:220px;
+                height:220px;
+                border-radius:999px;
+                background: radial-gradient(circle at 30% 30%, rgba(106,92,255,0.15), transparent 30%);
+                filter: blur(20px);
+                animation: float 6s ease-in-out infinite;
+            }
+            @keyframes float{
+                0%{ transform: translate(-20px,-40px) }
+                50%{ transform: translate(10px,-10px) }
+                100%{ transform: translate(-20px,-40px) }
+            }
+            .robot-wrap{
+                width:200px;
+                animation: bob 4s ease-in-out infinite;
+                position:relative;
+                z-index:1;
+            }
+            @keyframes bob{
+                0%{ transform: translateY(0) }
+                50%{ transform: translateY(-8px) }
+                100%{ transform: translateY(0) }
+            }
+            .muted{
+                color:var(--muted);
+                margin-top:18px;
+                font-size:13px;
+            }
+            @media (max-width:900px){
+                .card{ grid-template-columns: 1fr; padding:22px; gap:18px }
+                .big-404{ font-size:90px }
+                h1{ font-size:28px }
+                .visual{ order:-1 }
+                .scene{ max-width:280px }
+            }
+        </style>
+
+        <main class="card" role="main" aria-labelledby="title">
+            <section class="info" aria-label="404 information">
+                <div class="big-404">404</div>
+                <h1 id="title">Sahifa topilmadi</h1>
+				<p class="lead">Uzr — Ushbu sahifaga oid ma'lumotlar mavjud emas. Havolani tekshirib, bosh sahifaga qaytishingiz mumkin.</p>
+
+                <div class="actions" role="navigation" aria-label="Navigation actions">
+                    <a class="btn btn-primary" href="{% url 'home' %}">Bosh sahifaga qaytish</a>
+                    <a class="btn btn-ghost" href="javascript:history.back()">Orqaga</a>
+                </div>
+
+                <p class="muted">Agar xatolik takrorlansa, administratorga murojaat qiling.</p>
+            </section>
+
+            <aside class="visual" aria-hidden="false">
+                <div class="scene" role="img">
+                    <div class="orb" aria-hidden="true"></div>
+                    <div class="robot-wrap" aria-hidden="true">
+                        <!-- Robot SVG -->
+                        <svg viewBox="0 0 200 200" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
+                                    <stop offset="0" stop-color="#6a5cff"/>
+                                    <stop offset="1" stop-color="#00c6ff"/>
+                                </linearGradient>
+                                <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+                                    <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000" flood-opacity="0.25"/>
+                                </filter>
+                            </defs>
+                            <g filter="url(#shadow)">
+                                <rect x="34" y="50" width="132" height="100" rx="18" fill="url(#g1)"/>
+                                <rect x="58" y="70" width="84" height="56" rx="8" fill="#ffffff" opacity="0.95"/>
+                                <circle cx="84" cy="98" r="6" fill="#222"/>
+                                <circle cx="116" cy="98" r="6" fill="#222"/>
+                                <path d="M82 112c4 3 12 3 16 0" stroke="#222" stroke-width="3" stroke-linecap="round" fill="none"/>
+                            </g>
+                            <g>
+                                <rect x="64" y="24" width="72" height="42" rx="12" fill="#f4f6ff" opacity="0.9"/>
+                                <circle cx="78" cy="38" r="5" fill="#6a5cff"/>
+                                <rect x="118" y="34" width="8" height="8" rx="2" fill="#00c6ff"/>
+                                <line x1="100" y1="24" x2="100" y2="14" stroke="#ddd" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="100" cy="12" r="4" fill="#ffd27a"/>
+                            </g>
+                            <ellipse cx="100" cy="166" rx="48" ry="10" fill="rgba(0,0,0,0.15)"/>
+                        </svg>
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+    </div>
+</div>

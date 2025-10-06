@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'auth/style.css' %}">
+</head>
+<body>
+<section>
+  <div class="main-form-container">
+    <div id="form_section" class="form-container">
+
+
+      <!---       Login       ---->
+
+      <form method="post" class="login-form form-wraper ">
+        {% csrf_token %}
+        <div>
+          <div class="form-title">
+            <h2>Login</h2>
+            <h3 style="color: red;">{{ error }}</h3>
+          </div>
+          <div class="input-group">
+            <div class="box">
+              <span>
+                <input name="login_phone" required placeholder="Phone" class="myInput" type="text" />
+              </span>
+            </div>
+          </div>
+          <div class="input-group">
+            <div class="box">
+              <span>
+                <input name="login_pass" required placeholder="Password" class="myInput" type="text" />
+              </span>
+            </div>
+          </div>
+          <input type="text" name="login" value="1" hidden>
+
+          <div class="action-button">
+            <button>Login</button>
+          </div>
+        </div>
+      </form>
+
+
+      <!-----    Register   ----->
+
+      <form method="post" class="signUp-form form-wraper">
+        {% csrf_token %}
+        <div>
+          <div class="form-title">
+            <h2>Sign Up</h2>
+          </div>
+          <div class="input-group">
+            <div class="box">
+              <span>
+                <input name="regis_fullname" placeholder="Full Name" class="myInput" type="text" />
+              </span>
+            </div>
+          </div>
+          <div class="input-group">
+            <div class="box">
+              <span>
+                <input name="regis_phone" placeholder="Phone" class="myInput" type="text" />
+              </span>
+            </div>
+          </div>
+          <div class="input-group">
+            <div class="box">
+              <span>
+                <input name="regis_pass" placeholder="Password" class="myInput" type="password" />
+              </span>
+            </div>
+          </div>
+          <div style="margin-bottom: 0px;" class="input-group">
+            <div class="box">
+              <span>
+                <input name="regis_pass_conf" placeholder="Password Confirm" class="myInput" type="password" />
+              </span>
+            </div>
+          </div>
+          <div class="action-button">
+            <button>Sign Up</button>
+          </div>
+        </div>
+      </form>
+
+    </div>
+    <div id="multiple-btn" class="bg-btn-container">
+      <div class="action-button">
+        <button>Login</button>
+      </div>
+      <div class="action-button">
+        <button>Sign Up</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script src="{% static 'auth/scripts.js' %}">
+
+
+</script>
+
+</body>
+</html>
