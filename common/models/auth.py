@@ -24,7 +24,6 @@ class CustomUserManager(BaseUserManager):
 
 
     def create_superuser(self, phone, password=None, **extra_fields):
-        # bu yerda avtomatik qiymatlar beramiz
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
         extra_fields.setdefault('user_type', 1)  # majburan admin
