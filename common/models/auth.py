@@ -7,6 +7,7 @@ from django.db import models
 
 from django.contrib.auth.models import BaseUserManager
 
+
 class CustomUserManager(BaseUserManager):
     def create_user(self, phone, password=None, **extra_fields):
         if not phone:
@@ -23,19 +24,14 @@ class CustomUserManager(BaseUserManager):
 
 
     def create_superuser(self, phone, password=None, **extra_fields):
+        # bu yerda avtomatik qiymatlar beramiz
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('user_type', 1)  # admin foydalanuvchi
-
-        if extra_fields.get('is_staff') is not True:
-            raise ValueError("Superuser must have is_staff=True.")
-        if extra_fields.get('is_superuser') is not True:
-            raise ValueError("Superuser must have is_superuser=True.")
-        if extra_fields.get('user_type') != 1:
-            raise ValueError("Superuser must have user_type=1.")
+        extra_fields.setdefault('user_type', 1)  # majburan admin
 
         user = self.create_user(phone, password, **extra_fields)
         return user
+
 
 
 
