@@ -30,5 +30,6 @@ urlpatterns = [
     # user
     path("users/", user.user_list, name="user_list"),
     path("users/toggle/<int:pk>/", user.toggle_user_status, name="user-toggle"),
+    path("users/delete/<int:pk>/", user.delete_user, name="delete_user"),
 
 ]

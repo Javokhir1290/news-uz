@@ -1098,3 +1098,24 @@ footer ul.menu li a {
 .topheader ul.lang li {
     margin-left: 20px !important;
 }
+
+/* === Ijtimoiy tarmoq ikonkalari uchun === */
+ul.social {
+  list-style: none;
+  display: flex;
+  justify-content: flex-end; /* o‘ng tomonda chiqadi */
+  align-items: center;
+  gap: 15px;
+  margin: 0;
+  padding: 0;
+}
+
+ul.social li a {
+  color: #fff;
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+ul.social li a:hover {
+  color: #1da1f2;
+}

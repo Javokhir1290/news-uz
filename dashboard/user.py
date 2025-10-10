@@ -23,3 +23,11 @@ def toggle_user_status(request, pk):
     user.is_active = not user.is_active
     user.save()
     return redirect("user_list")
+
+
+
+@login_required
+def delete_user(request, pk):
+    user = get_object_or_404(User, id=pk)
+    user.delete()
+    return redirect("user_list")
